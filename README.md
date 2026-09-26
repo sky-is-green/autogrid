@@ -2,6 +2,11 @@
 
 **Turn any model into a full-size *integer* model — for free, where the math says it's free.**
 
+> **This is a fork.** [`sky-is-green/autogrid`](https://github.com/sky-is-green/autogrid)
+> is forked from [AUTOGRID](https://github.com/CodeMasterCody3D/autogrid) by
+> Cody Dixon (MIT). Fork point: upstream commit `0058823`. Changes are tracked
+> in [CHANGELOG.md](CHANGELOG.md); attribution is in [NOTICE](NOTICE).
+
 AUTOGRID is a desktop app + CLI that scans every tensor of a safetensors
 checkpoint, measures what it would cost to put that tensor on a
 **balanced-ternary integer grid** (`w ≈ s · Σ dᵢ·3⁻ⁱ`, digits `dᵢ ∈ {−1,0,+1}`),

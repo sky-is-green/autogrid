@@ -1,0 +1,17 @@
+AUTOGRID — fork notices
+
+This repository is a fork of:
+
+1. AUTOGRID
+   Copyright (c) 2026 Cody Dixon (CodeMasterCody3D)
+   MIT License — see LICENSE
+   https://github.com/CodeMasterCody3D/autogrid
+   Forked at commit 0058823 ("AUTOGRID: noise-floor detector + integer
+   converter", 2026-09-03).
+
+Modifications in this fork:
+
+   Copyright (c) 2026 the sky-is-green contributors.
+   Released under the MIT License unless a file states otherwise.
+   Changes to the original work are recorded in CHANGELOG.md and the git
+   history; the upstream README text is preserved below the fork banner.
