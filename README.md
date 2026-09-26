@@ -111,6 +111,36 @@ python autogrid.py --revert  /path/to/model --backup model.autogrid-backup.safet
 
 ---
 
+## Fork extensions (sky-is-green)
+
+This fork keeps the upstream engine and CLI untouched and adds an extension
+package (`autogrid_ext/`) for MoE work:
+
+- **MoE-aware bank reports** (`--banks`) — expert tensors are parsed into
+  roles and aggregated into banks with `FREE@k` / `STEER` verdicts,
+  per-projection breakdowns, and correction policy hints from the measured
+  placement rules (residual-stream `moe_out` branches, rank ~512; rank-64
+  router deltas).
+- **Correction plans** (`--plan-out plan.json`) — a versioned plan the
+  upstream converter consumes directly: safe convert ops plus the correction
+  layers, targets and routers for the training pipeline.
+- **Deployed-container simulation** (`--containers ternary,q1_0_g128`) —
+  measures each tensor inside the TAARDIS `Q1_0_g128` container (2-bit codes
+  + fp16 Lloyd-Max group scale = 2.125 bpw), with the absmean rule kept for
+  comparison.
+- **Python API + tests** — `import autogrid` for the engine,
+  `import autogrid_ext` for banks/plans/containers; pytest suite and CI in
+  this fork.
+
+```bash
+python autogrid.py --scan /path/to/model --banks --plan-out plan.json
+python autogrid.py --scan /path/to/model --containers ternary,q1_0_g128
+python autogrid.py --convert /path/to/model --plan plan.json
+```
+
+Fork changes are recorded in [CHANGELOG.md](CHANGELOG.md); attribution is in
+[NOTICE](NOTICE).
+
 ## Part of TAARDIS
 
 AUTOGRID is the noise-floor auto-detector from **TAARDIS** (*Ternary Adaptive

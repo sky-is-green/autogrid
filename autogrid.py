@@ -251,7 +251,11 @@ def convert_model(model_path, plan, backup_path, progress=lambda *a: None):
     backup = {}
     for p in plan:
         with safe_open(str(wm[p["tensor"]]), framework="pt") as h:
-            backup[p["tensor"]] = h.get_tensor(p["tensor"]).contiguous()
+            # fork fix: safe_open/get_tensor return memory-mapped views, so a
+            # plain .contiguous() still aliases the file.  Without a clone the
+            # in-memory backup (and the reload check below) updates when the
+            # shard is patched and the check always reports "identical".
+            backup[p["tensor"]] = h.get_tensor(p["tensor"]).clone()
     save_file(backup, str(backup_path))
     # 2) patch shard by shard
     byshard = {}
@@ -504,7 +508,24 @@ def main():
     ap.add_argument("--json", metavar="OUT")
     ap.add_argument("--safety", type=float, default=1.0)
     ap.add_argument("--max-k", type=int, default=8)
+
+    # ---- sky-is-green fork extension hook ---------------------------------
+    # Adds MoE-aware bank reports (--banks), correction-plan export
+    # (--plan-out) and deployed-container simulation (--containers).  Without
+    # the autogrid_ext package installed this block is inert and the upstream
+    # code path below is byte-for-byte unchanged.
+    _ext = None
+    from importlib.util import find_spec as _find_spec
+    if _find_spec("autogrid_ext") is not None:
+        from autogrid_ext import cli as _ext
+        _ext.add_arguments(ap)
     a = ap.parse_args()
+    if _ext is not None and _ext.wants_extended(a):
+        return _ext.main(a, scan_model=scan_model,
+                         convert_model=convert_model,
+                         revert_model=revert_model)
+    # -----------------------------------------------------------------------
+
     if a.scan:
         rep = scan_model(a.scan, a.safety, a.max_k,
                          progress=lambda i, n, name:

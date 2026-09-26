@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autogrid"
+version = "0.1.0+sky.1"
+description = "AUTOGRID fork: noise-floor detector + integer converter with MoE-aware reporting and correction plans (upstream: CodeMasterCody3D/autogrid)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "sky-is-green contributors"},
+]
+dependencies = [
+    "torch",
+    "safetensors",
+    "numpy",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+autogrid = "autogrid:main"
+autogrid-ext = "autogrid_ext.cli:main_entry"
+
+[tool.setuptools]
+py-modules = ["autogrid"]
+
+[tool.setuptools.packages.find]
+include = ["autogrid_ext*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
