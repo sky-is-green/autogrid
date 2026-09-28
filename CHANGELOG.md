@@ -15,6 +15,9 @@ All notable changes to this fork are recorded here. Upstream is
 - `--containers`: deployed-container simulation; `q1_0_g128` (2-bit codes +
   fp16 Lloyd-Max group scale, 2.125 bpw) with absmean comparison.
 - Python API (`import autogrid`, `import autogrid_ext`), pytest suite, CI.
+- `autogrid_ext.steer`: DeltaLoss (SignRoundV2) steering ranker for STEER
+  tensors — gradient × quantization perturbation on calibration inputs,
+  library + tests.
 - `autogrid.py` keeps upstream behaviour; a small hook delegates to the
   extension only when fork flags are used.
 - Fixed the in-place converter's false "reload identical" warning:

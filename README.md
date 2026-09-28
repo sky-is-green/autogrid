@@ -131,6 +131,9 @@ package (`autogrid_ext/`) for MoE work:
 - **Python API + tests** — `import autogrid` for the engine,
   `import autogrid_ext` for banks/plans/containers; pytest suite and CI in
   this fork.
+- **DeltaLoss steering ranker** (`autogrid_ext.steer`, SignRoundV2) — ranks
+  STEER tensors by gradient × quantization perturbation on calibration
+  inputs, for deciding what the steered pipeline touches first.
 
 ```bash
 python autogrid.py --scan /path/to/model --banks --plan-out plan.json

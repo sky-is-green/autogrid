@@ -12,17 +12,21 @@ adds the fork's needs without touching those code paths:
   stays compatible with the upstream ``--convert --plan`` file shape.
 * :mod:`autogrid_ext.scan` / :mod:`autogrid_ext.cli` — the extended scan and
   the ``--plan-out`` / ``--containers`` / ``--banks`` CLI flags.
+* :mod:`autogrid_ext.steer` — DeltaLoss (SignRoundV2) steering ranker for the
+  tensors AUTOGRID classifies STEER.
 """
-from . import containers, moe, plan, scan  # noqa: F401
+from . import containers, moe, plan, scan, steer  # noqa: F401
 from .containers import container_bpw, ternary_absmean, ternary_lloyd
 from .moe import build_banks, layer_spec, parse_tensor_name
 from .plan import build_plan, load_plan, save_plan
 from .scan import scan_extended
+from .steer import delta_loss_weight, deltaloss_linear
 
 __version__ = "0.1.0+sky.1"
 
 __all__ = [
-    "build_banks", "build_plan", "container_bpw", "containers", "layer_spec",
-    "load_plan", "moe", "parse_tensor_name", "plan", "save_plan", "scan",
-    "scan_extended", "ternary_absmean", "ternary_lloyd", "__version__",
+    "build_banks", "build_plan", "container_bpw", "containers",
+    "delta_loss_weight", "deltaloss_linear", "layer_spec", "load_plan",
+    "moe", "parse_tensor_name", "plan", "save_plan", "scan", "scan_extended",
+    "steer", "ternary_absmean", "ternary_lloyd", "__version__",
 ]
